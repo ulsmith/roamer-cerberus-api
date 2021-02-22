@@ -1,0 +1,82 @@
+{
+	"openapi": "3.0.n",
+	"info": {
+		"title": "ROAMer API",
+		"description": "ROAMer Remote Obeservation And Manipulation device API (child of Antdroid (hexbot)). REST API for talking to roamer.",
+		"contact": {
+			"name": "Paul Smith"
+		},
+		"license": {
+			"name": "GPL v3"
+		},
+		"version": "0.0.1"
+	},
+	"servers": [
+		{
+			"url": "",
+			"description": "Development server"
+		}
+	],
+	"tags": [
+		{
+			"name": "[api]/",
+			"description": "Root path"
+		}
+	],
+	"paths": {
+		"/health": {
+			"get": {
+				"tags": [
+					"[api]/"
+				],
+				"summary": "Health check",
+				"description": "Checks the server to test system is up and any resources are healthy.",
+				"responses": {
+					"200": {
+						"description": "Health check success",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Health"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"securitySchemes": {
+			"bearerAuth": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT",
+				"description": "JWT Bearer token e.g. xxxxx.yyyyy.zzzzz"
+			}
+		},
+		"schemas": {
+			"Health": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"version": {
+						"type": "string"
+					},
+					"mode": {
+						"type": "string"
+					},
+					"status": {
+						"type": "string"
+					},
+					"dateTime": {
+						"type": "string",
+						"format": "date-time"
+					}
+				}
+			}
+		}
+	}
+}
