@@ -13,3 +13,7 @@ npm install roamer-cerberus-api --save
 ## Run
 
 npm run serve
+
+## Test
+
+npm test
