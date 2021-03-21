@@ -3,7 +3,7 @@
 	"version": "0.0.1",
 	"description": "ROAMer Remote Obeservation And Manipulation device API (child of Antdroid (hexbot)). REST API for talking to roamer.",
 	"author": "Paul Smith",
-	"license": "GPL v3",
+	"license": "MIT",
 	"private": false,
 	"scripts": {
 		"start": "node handler.js",
