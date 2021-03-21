@@ -15,7 +15,7 @@ const Readline = require('@serialport/parser-readline')
  * @copyright 2020 Paul Smith (ulsmith) all rights reserved
  * @license MIT
  */
-class Move extends Controller {
+class Action extends Controller {
 
 	/**
 	 * @public @method constructor
@@ -30,7 +30,7 @@ class Move extends Controller {
 	 * @desciption Get the access for methods. All methods are restricted by default unless specifically set as 'public'.
 	 * @return {Object} Object of access levels for methods
 	 */
-    static get get() { return 'public' }
+    static get socket() { return 'public' }
 
     /**
      * @public @method get
@@ -38,9 +38,11 @@ class Move extends Controller {
      * @param {*} request The request that caused the controller to run
      * @return Promise a response promise resolved or rejected with a raw payload or {status: ..., data: ..., headers: ...} payload
      */
-	get(request) {
-		return this.$services.ComService.send('m 20 30').then((res) => ({ message: res }));
+	socket(request) {
+		if (!this.$services.ComService.connection) return this.$socket.emit('notification', { type: 'warning', message: 'Serial port is not connected' });
+
+		this.$services.ComService.send(request.body).catch(() => this.$socket.emit('notification', { type: 'warning', message: 'Could not send message to serial port' }));	
 	}
 }
 
-module.exports = Move;
+module.exports = Action;

@@ -27,7 +27,7 @@ class Disconnect extends Controller {
 	 * @desciption Get the access for methods. All methods are restricted by default unless specifically set as 'public'.
 	 * @return {Object} Object of access levels for methods
 	 */
-    static get get() { return 'public' }
+    static get socket() { return 'public' }
 
     /**
      * @public @method get
@@ -35,10 +35,13 @@ class Disconnect extends Controller {
      * @param {*} request The request that caused the controller to run
      * @return Promise a response promise resolved or rejected with a raw payload or {status: ..., data: ..., headers: ...} payload
      */
-	get(request) {
-		if (!this.$services.ComService.connection) return {'message': 'already disconnected'};
+	socket(request) {
+		if (!this.$services.ComService.connection) return;
 
-		return this.$services.ComService.disconnect().then(() => ({'message': 'disconnected'}));
+		this.$services.ComService.ignore()
+			.then(() => this.$services.ComService.disconnect())
+			.then(() => this.$socket.emit('notification', { type: 'info', message: 'Disconnected from serial port' }))
+			.catch(() => this.$socket.emit('notification', { type: 'warning', message: 'Could not disconnect from serial port' }));	
 	}
 }
 

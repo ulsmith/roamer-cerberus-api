@@ -20,26 +20,20 @@
 		{
 			"name": "Connect",
 			"handler": false,
-			"method": "get",
+			"method": "socket",
 			"path": "/connect"
 		},
 		{
 			"name": "Disconnect",
 			"handler": false,
-			"method": "get",
+			"method": "socket",
 			"path": "/disconnect"
 		},
 		{
-			"name": "Move",
-			"handler": false,
-			"method": "get",
-			"path": "/move/{x}/{y}"
-		},
-		{
-			"name": "Move",
+			"name": "Action",
 			"handler": false,
 			"method": "socket",
-			"path": "/test"
+			"path": "/action"
 		}
 	]
 }

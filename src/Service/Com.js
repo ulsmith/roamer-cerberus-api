@@ -22,17 +22,21 @@ class Com extends Service{
 
 		this.service = 'ComService';
 		this.connection;
+		this.parser;
     }
 
     /**
      * @public @method get
      * @description Ping the system to check whats health and whats not
+	 * @socket @emit roamer-request {string}
      * @param {*} request The request that caused the controller to run
      * @return Promise a response promise resolved or rejected with a raw payload or {status: ..., data: ..., headers: ...} payload
      */
 	connect() {
 		return new Promise((res, rej) => {
 			this.connection = new SerialPort(this.$environment.API_SERIAL_PORT, (err) => err ? rej(err.message) : undefined);
+			this.$socket.emit('roamer-request', 'connect');
+			this.$socket.emit('roamer-response', 'connected');
 			this.connection.open(() => res('connected'));
 		});	
 	}
@@ -40,6 +44,7 @@ class Com extends Service{
 	/**
 	 * @public @method get
 	 * @description Ping the system to check whats health and whats not
+	 * @socket @emit roamer-request {string}
 	 * @param {*} request The request that caused the controller to run
 	 * @return Promise a response promise resolved or rejected with a raw payload or {status: ..., data: ..., headers: ...} payload
 	 */
@@ -47,7 +52,28 @@ class Com extends Service{
 		return new Promise((res, rej) => {
 			this.connection.close((err) => err ? rej(err.message) : undefined);
 			this.connection = undefined;
-			return res();
+			this.$socket.emit('roamer-request', 'disconnect');
+			this.$socket.emit('roamer-response', 'disconnected');
+			return res('disconnected');
+		});
+	}
+
+	listen() {
+		if (!this.connection) return Promise.reject('connection error');
+
+		return new Promise((res, rej) => {
+			this.parser = this.connection.pipe(new Readline({ delimiter: '\r\n' }));
+			this.parser.on('data', (data) => this.$socket.emit('roamer-response', (data + '\n').replace('\n\n', '\n')));
+			this.$socket.emit('roamer-request', 'listen');
+			this.$socket.emit('roamer-response', 'listening');
+			return res('listening');
+		});
+	}
+
+	ignore() {
+		return new Promise((res, rej) => {
+			this.parser = undefined;
+			return res('ignoring');
 		});
 	}
 
@@ -55,16 +81,10 @@ class Com extends Service{
 		if (!this.connection) return Promise.reject('connection error');
 
 		return new Promise((res, rej) => {
-			const timeout = setTimeout(() => { res('timeout') }, 5000);
-
-			const parser = this.connection.pipe(new Readline({ delimiter: '\r\n' }));
-			parser.on('data', function (data) {
-				clearTimeout(timeout);
-				return res(data);
-			});
-
-			this.connection.write(`${message}\n`, function (err) {
+			this.connection.write(`${message}\n`, (err) => {
 				if (err) return rej(err.message);
+				this.$socket.emit('roamer-request', `${message}`);
+				return res('sent');
 			});
 		});
 	}

@@ -3,6 +3,7 @@
 const Application = require('cerberus-mvc/System/Application');
 const CorsMiddleware = require('cerberus-mvc/Middleware/Cors');
 const AuthMiddleware = require('./src/Middleware/Auth.js');
+const ComService = require('./src/Service/Com.js');
 // const AuthService = require('./src/Service/Auth.js');
 
 const express = require('express');
@@ -37,14 +38,19 @@ const io = require('socket.io')(http, {
 });
 
 io.on('connection', (socket) => {
-	socket.onAny((route, data) => {		
-		console.log(route);
-		const app = new Application('socket');
-		// const authService = new AuthService();
-		const authMiddleware = new AuthMiddleware();
+	const app = new Application('socket');
+	// const authService = new AuthService();
+	const authMiddleware = new AuthMiddleware();
+	const comService = new ComService();
 
-		// app.service(authService);
-		app.middleware(authMiddleware);
+	// app.service(authService);
+	app.middleware(authMiddleware);
+	// here we need to somehow auth the user and drop connect if not authed
+	
+	socket.onAny((route, data) => {		
+		console.log(route, data, socket.id);
+
+		app.service(comService);
 
 		app.run({ route, data, socket, io });
 	});

@@ -27,7 +27,7 @@ class Move extends Controller {
 	 * @desciption Get the access for methods. All methods are restricted by default unless specifically set as 'public'.
 	 * @return {Object} Object of access levels for methods
 	 */
-    static get get() { return 'public' }
+    static get socket() { return 'public' }
 
     /**
      * @public @method get
@@ -35,13 +35,13 @@ class Move extends Controller {
      * @param {*} request The request that caused the controller to run
      * @return Promise a response promise resolved or rejected with a raw payload or {status: ..., data: ..., headers: ...} payload
      */
-	get(request) {
-		if (!!this.$services.ComService.connection) return { 'message': 'already connected', 'port': this.$services.ComService.port };
+	socket(request) {
+		if (!!this.$services.ComService.connection) return;
 
-		return this.$services.ComService.connect().then(() => ({ 'message': 'connected', 'port': this.$services.ComService.port }));
-
-
-		
+		this.$services.ComService.connect()
+			.then(() => this.$services.ComService.listen())
+			.then(() => this.$socket.emit('notification', { type: 'info', message: 'Connected to serial port' }))
+			.catch((err) => this.$socket.emit('notification', { type: 'warning', message: 'Could not connect to serial port' }));	
 	}
 }
 
