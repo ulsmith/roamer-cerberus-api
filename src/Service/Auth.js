@@ -13,8 +13,8 @@ const UserAccountModel = require('../Model/Sourcing/Identity/UserAccount.js');
  * @class Auth
  * @extends Service
  * @description Service class providing authentication functionality, accessable thorughout the application
- * @author Paul Smith <paul.smith@answersinretirement.co.uk>
- * @copyright 2020 (Answers in Retirement) all rights reserved
+ * @author Paul Smith <p@ulsmith.net>
+ * @copyright 2021 (ulsmith.net) all rights reserved
  * @license MIT
  */
 class Auth extends Service {

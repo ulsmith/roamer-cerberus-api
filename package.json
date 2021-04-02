@@ -8,7 +8,7 @@
 	"scripts": {
 		"start": "node handler.js",
 		"serve": "node handler.js",
-		"watch": "nodemon handler.js",
+		"watch": "nodemon handler.mjs",
 		"swagger:up": "docker-compose up -d && echo 'access @ http://localhost:8181'",
 		"swagger:down": "docker-compose down",
 		"test": "env SERVER=http://localhost:8082 ORIGIN=http://localhost mocha test --recursive"

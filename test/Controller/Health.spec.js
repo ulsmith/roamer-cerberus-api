@@ -37,7 +37,7 @@ describe('Controller Endpoint Test [/Health]', function () {
 				assert.equal(res.body.status, 'healthy');
 
 				// finish
-				done();
+				static done();
 			});
 		});
 	});
