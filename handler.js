@@ -1,12 +1,14 @@
-import Application from './node_modules/cerberus-mvc/System/Application.js';
-import CorsMiddleware from './node_modules/cerberus-mvc/Middleware/Cors.js';
-import AuthMiddleware from './src/Middleware/Auth.js';
-import ComService from './src/Service/Com.js';
-// import AuthService from './src/Service/Auth.js';
-import express from './node_modules/express/index.js';
-import requestIp from './node_modules/request-ip/dist/index.js';
-import http from 'http';
-import socketio from './node_modules/socket.io/dist/index.js';
+'use strict';
+
+const Application = require('cerberus-mvc/System/Application');
+const CorsMiddleware = require('cerberus-mvc/Middleware/Cors');
+const AuthMiddleware = require('./src/Middleware/Auth.js');
+const ComService = require('./src/Service/Com.js');
+// const AuthService = require('./src/Service/Auth.js');
+const express = require('express');
+const requestIp = require('request-ip');
+const http = require('http');
+const socketio = require('./node_modules/socket.io/dist/index.js');
 
 const API_PORT = 8082;
 const server = express();
