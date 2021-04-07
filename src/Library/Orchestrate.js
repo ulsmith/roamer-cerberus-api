@@ -119,7 +119,7 @@ class Orchestrate {
 		let done = false;
 
 		while (!done) {
-			static done = true;
+			done = true;
 
 			for (const key in chain) {
 				now = Date.now();
