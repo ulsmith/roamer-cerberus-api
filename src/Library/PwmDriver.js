@@ -44,7 +44,7 @@ class PwmDriver {
 		try {
 			this.setPulse(0, 0);
 
-			await this.i2c.writeBytes(this.m2Hex, this.outDrvHex);
+			this.i2c.writeBytes(this.m2Hex, this.outDrvHex);
 			await this.i2c.writeBytes(this.m1Hex, this.allCallHex);
 			await Sleep.microseconds(5000);
 
@@ -77,9 +77,9 @@ class PwmDriver {
 
 		if (this.options.debug) console.log(`prescale: ${Math.floor(pscale)}, new mode: ${newm.toString(16)}`);
 
-		await this.i2c.writeBytes(this.m1Hex, newm);
-		await this.i2c.writeBytes(this.pscaleHex, Math.floor(pscale));
-		await this.i2c.writeBytes(this.m1Hex, oldm);
+		this.i2c.writeBytes(this.m1Hex, newm);
+		this.i2c.writeBytes(this.pscaleHex, Math.floor(pscale));
+		this.i2c.writeBytes(this.m1Hex, oldm);
 		await Sleep.microseconds(5000);
 		await this.i2c.writeBytes(this.m1Hex, oldm | 0x80);
 	}
@@ -87,18 +87,18 @@ class PwmDriver {
 	async setPulse(channel, on, off) {
 		if (this.options.debug) console.log(`Set PWM channel [${channel}] on: ${on} off: ${off}`);
 
-		await this.i2c.writeBytes(this.onLowHex + 4 * channel, on & 0xFF);
-		await this.i2c.writeBytes(this.onHighhex + 4 * channel, on >> 8);
-		await this.i2c.writeBytes(this.offLowHex + 4 * channel, off & 0xFF);
+		this.i2c.writeBytes(this.onLowHex + 4 * channel, on & 0xFF);
+		this.i2c.writeBytes(this.onHighhex + 4 * channel, on >> 8);
+		this.i2c.writeBytes(this.offLowHex + 4 * channel, off & 0xFF);
 		await this.i2c.writeBytes(this.offHighHex + 4 * channel, off >> 8);
 	}
 
 	async setPulseAll(on, off) {
 		if (this.options.debug) console.log(`Set ALL PWM channels on: ${on} off: ${off}`);
 
-		await this.i2c.writeBytes(this.allOnLowHex, on & 0xFF);
-		await this.i2c.writeBytes(this.allOnHighHex, on >> 8);
-		await this.i2c.writeBytes(this.allOffLowHex, off & 0xFF);
+		this.i2c.writeBytes(this.allOnLowHex, on & 0xFF);
+		this.i2c.writeBytes(this.allOnHighHex, on >> 8);
+		this.i2c.writeBytes(this.allOffLowHex, off & 0xFF);
 		await this.i2c.writeBytes(this.allOffHighHex, off >> 8);
 	}
 
