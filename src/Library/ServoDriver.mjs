@@ -1,15 +1,16 @@
-const I2C = require('node-i2c-js');
-const Sleep = require('./Sleep');
+import I2C from '../../node_modules/node-i2c-js/index.js';
+import Sleep from './Sleep.mjs';
 
 /**
  * @namespace API/Library
- * @class PwmDriver
+ * @class ServoDriver
+ * @exports ServoDriver
  * @description Library class providing PWM functionality over i2c
  * @author Paul Smith <p@ulsmith.net>
  * @copyright 2021 (ulsmith.net) all rights reserved
  * @license MIT
  */
-class PwmDriver {
+export default class ServoDriver {
 
 	/**
 	 * @public @method constructor
@@ -20,7 +21,7 @@ class PwmDriver {
 		this.m2Hex = 0x01;
 		this.pscaleHex = 0xFE;
 		this.onLowHex = 0x06;
-		this.onHighhex = 0x07;
+		this.onHighHex = 0x07;
 		this.offLowHex = 0x08;
 		this.offHighHex = 0x09;
 		this.allOnLowHex = 0xFA;
@@ -88,7 +89,7 @@ class PwmDriver {
 		if (this.options.debug) console.log(`Set PWM channel [${channel}] on: ${on} off: ${off}`);
 
 		this.i2c.writeBytes(this.onLowHex + 4 * channel, on & 0xFF);
-		this.i2c.writeBytes(this.onHighhex + 4 * channel, on >> 8);
+		this.i2c.writeBytes(this.onHighHex + 4 * channel, on >> 8);
 		this.i2c.writeBytes(this.offLowHex + 4 * channel, off & 0xFF);
 		await this.i2c.writeBytes(this.offHighHex + 4 * channel, off >> 8);
 	}
@@ -102,13 +103,25 @@ class PwmDriver {
 		await this.i2c.writeBytes(this.allOffHighHex, off >> 8);
 	}
 
-	async clearPulse(channel) {
+	async setAngle(channel, angle) {
+		// we need to init and set frequency before using servo
+		// we need to use pulses based on frequency
+
+		// Configure min and max servo pulse lengths 
+		// @50hz - 424 is 180 degrees of movement from 100 --- 100 = 0, 312 = 90, 524 = 180 --- 2.355555556 ticks per degree
+		// @100hz - 848 is 180 degrees of movement from 200 --- 200 = 0, 624 = 90, 1048 = 180 --- 4.711111111 ticks per degree
+		// @200hz - 1670 is 180 degrees of movement from 400 --- 400 = 0, 1235 = 90, 2070 = 180 --- 9.277777778 ticks per degree
+	}
+
+	async setAngleAll(angle) {
+
+	}
+
+	async stopChannel(channel) {
 		await this.i2c.writeBytes(this.offHighHex + 4 * channel, 0x01);
 	}
 
-	async clearPulseAll() {
+	async stopAll() {
 		await this.i2c.writeBytes(this.allOffHighHex, 0x01);
 	}
 }
-
-module.exports = PwmDriver;

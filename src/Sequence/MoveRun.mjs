@@ -1,14 +1,13 @@
-'use strict';
-
 /**
  * @namespace API/Sequence
  * @class MoveRun
+ * @exports MoveRun
  * @description Sequence class providing a canned sequence
  * @author Paul Smith <p@ulsmith.net>
  * @copyright 2021 (ulsmith.net) all rights reserved
  * @license MIT
  */
-class MoveRun {
+export default class MoveRun {
 
 	/**
 	 * @public @static @method do
@@ -68,5 +67,3 @@ class MoveRun {
 		chain.play();
 	}
 }
-
-module.exports = MoveRun;

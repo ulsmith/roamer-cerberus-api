@@ -1,18 +1,16 @@
-'use strict';
-
-const Controller = require('cerberus-mvc/Base/Controller');
-const RestError = require('cerberus-mvc/Error/Rest');
+import Controller from '../../node_modules/cerberus-mvc/Base/Controller.js';
 
 /**
  * @namespace API/Controller
  * @class Health
  * @extends Controller
+ * @exports Move
  * @description Controller class exposing methods over the routed endpoint
  * @author Paul Smith (ulsmith) <p@ulsmith.net> <pa.ulsmith.net>
  * @copyright 2020 Paul Smith (ulsmith) all rights reserved
  * @license MIT
  */
-class Move extends Controller {
+export default class Move extends Controller {
 
 	/**
 	 * @public @method constructor
@@ -44,5 +42,3 @@ class Move extends Controller {
 			.catch((err) => this.$socket.emit('notification', { type: 'warning', message: 'Could not connect to serial port' }));	
 	}
 }
-
-module.exports = Move;

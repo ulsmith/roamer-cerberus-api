@@ -1,20 +1,11 @@
-'use strict';
-
-const Leg = require('./Leg');
-const { Orchestrate } = require('./Orchestrate');
-const Sequences = {
-	PostureSit: require('./PostureSit'),
-	PostureCrab: require('./PostureCrab'),
-	PostureWalk: require('./PostureWalk'),
-	PostureRun: require('./PostureRun'),
-	MoveCrab: require('./MoveCrab'),
-	MoveWalk: require('./MoveWalk'),
-	MoveRun: require('./MoveRun')
-};
+import Leg from './Leg.mjs';
+import { Orchestrate } from './Orchestrate.mjs';
+import Sequences from '../Sequence/index.mjs';
 
 /**
  * @namespace API/Library
  * @class Sequencer
+ * @exports Sequencer
  * @description Library class providing sequences for blocks of movement
  * @author Paul Smith <p@ulsmith.net>
  * @copyright 2021 (ulsmith.net) all rights reserved
@@ -33,7 +24,7 @@ const Sequences = {
  *      .................
  *             90
  */
-class Sequencer {
+export default class Sequencer {
 
 	/**
 	 * @public @method constructor
@@ -85,5 +76,3 @@ class Sequencer {
 		Sequences[name].do(this.legs, this.chain, d1, d2);
 	}
 }
-
-module.exports = Sequencer;

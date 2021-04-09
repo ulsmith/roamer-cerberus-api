@@ -1,14 +1,13 @@
-'use strict';
-
 /**
  * @namespace API/Library
  * @class Kinematics
+ * @exports Kinematics
  * @description Library class providing kinematics support, for angle generation
  * @author Paul Smith <p@ulsmith.net>
  * @copyright 2021 (ulsmith.net) all rights reserved
  * @license MIT
  */
-class Kinematics {
+export default class Kinematics {
 	/**
 	 * @public @method constructor
 	 * @description Base method when instantiating class
@@ -91,5 +90,3 @@ class Kinematics {
 		this._cPos = {x, y, z};
 	}
 }
-
-module.exports = Kinematics;

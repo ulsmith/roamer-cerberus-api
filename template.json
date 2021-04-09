@@ -1,6 +1,6 @@
 {
 	"global": {
-		"handler": "handler.js",
+		"handler": "handler.mjs",
 		"environment": {
 			"API_NAME": "cerberus-mvc-roamer-cerberus-api",
 			"API_ADDRESS": "http://localhost:8082",

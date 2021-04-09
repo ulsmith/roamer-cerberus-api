@@ -1,8 +1,7 @@
-'use strict';
-
 /**
  * @namespace API/Library
  * @class Orc
+ * @exports Orc
  * @description Library class providing orcastrable structure
  * @author Paul Smith <p@ulsmith.net>
  * @copyright 2021 (ulsmith.net) all rights reserved
@@ -25,6 +24,7 @@ class Orc {
 /**
  * @namespace API/Library
  * @class Orchestrate
+ * @exports Orchastrate
  * @description Library class providing servo orchastration support, moving many servos in unison
  * @author Paul Smith <p@ulsmith.net>
  * @copyright 2021 (ulsmith.net) all rights reserved
@@ -165,4 +165,7 @@ class Orchestrate {
 	}
 }
 
-module.exports = {  Orc, OrcChain, Orchestrate };
+export {
+	Orc,
+	Orchestrate
+};

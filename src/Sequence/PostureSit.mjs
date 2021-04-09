@@ -1,14 +1,13 @@
-'use strict';
-
 /**
  * @namespace API/Sequence
  * @class PostureSit
+ * @exports PostureSit
  * @description Sequence class providing a canned sequence
  * @author Paul Smith <p@ulsmith.net>
  * @copyright 2021 (ulsmith.net) all rights reserved
  * @license MIT
  */
-class PostureSit {
+export default class PostureSit {
 
 	/**
 	 * @public @static @method do
@@ -36,5 +35,3 @@ class PostureSit {
 		chain.play();
 	}
 }
-
-module.exports = PostureSit;

@@ -1,7 +1,5 @@
-'use strict';
-
-const Middleware = require('cerberus-mvc/Base/Middleware');
-const RestError = require('cerberus-mvc/Error/Rest');
+import Middleware from '../../node_modules/cerberus-mvc/Base/Middleware.js';
+import RestError from '../../node_modules/cerberus-mvc/Error/Rest.js';
 
 /**
  * @namespace API/Middleware
@@ -12,7 +10,7 @@ const RestError = require('cerberus-mvc/Error/Rest');
  * @copyright 2020 (ulsmith) all rights reserved
  * @license MIT
  */
-class Auth extends Middleware {
+export default class Auth extends Middleware {
 
 	/**
 	 * @public @method constructor
@@ -59,5 +57,3 @@ class Auth extends Middleware {
 		return this.$services.auth.verify(request.headers.Authorization, request.headers['User-Agent']).then(() => request);
 	}
 }
-
-module.exports = Auth;

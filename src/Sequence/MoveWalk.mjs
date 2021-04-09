@@ -1,14 +1,13 @@
-'use strict';
-
 /**
  * @namespace API/Sequence
- * @class MoveCrab
+ * @class MoveWalk
+ * @exports MoveWalk
  * @description Sequence class providing a canned sequence
  * @author Paul Smith <p@ulsmith.net>
  * @copyright 2021 (ulsmith.net) all rights reserved
  * @license MIT
  */
-class MoveCrab {
+export default class MoveWalk {
 
 	/**
 	 * @public @static @method do
@@ -23,7 +22,7 @@ class MoveCrab {
 		let csy = sy > 0 ? 15 + (sy * 2) : (sy < 0 ? -15 + (sy * 2) : 0);
 
 		// move forward/back and up
-		angles = legs.rightFront.moveLeg(90 + (sx * 10), csy, -40);
+		angles = legs.rightFront.moveLeg(63 + (sx * 10), 63 + csy, -40);
 		chain.load('rfs', angles.shoulder, 0, 200);
 		chain.load('rfm', angles.main, 0, 200);
 		chain.load('rff', angles.foot, 0, 200);
@@ -31,7 +30,7 @@ class MoveCrab {
 		chain.load('rms', angles.shoulder, 0, 200);
 		chain.load('rmm', angles.main, 0, 200);
 		chain.load('rmf', angles.foot, 0, 200);
-		angles = legs.rightBack.moveLeg(90 + (sx * 10), csy, -40);
+		angles = legs.rightBack.moveLeg(63 + (sx * 10), -63 + csy, -40);
 		chain.load('rbs', angles.shoulder, 0, 200);
 		chain.load('rbm', angles.main, 0, 200);
 		chain.load('rbf', angles.foot, 0, 200);
@@ -39,7 +38,7 @@ class MoveCrab {
 		chain.play();
 
 		// move down and center
-		angles = legs.rightFront.moveLeg(90, 0, -70);
+		angles = legs.rightFront.moveLeg(63, 63, -70);
 		chain.load('rfs', angles.shoulder, 100, 100);
 		chain.load('rfm', angles.main, 0, 100);
 		chain.load('rff', angles.foot, 0, 100);
@@ -47,7 +46,7 @@ class MoveCrab {
 		chain.load('rms', angles.shoulder, 100, 100);
 		chain.load('rmm', angles.main, 0, 100);
 		chain.load('rmf', angles.foot, 0, 100);
-		angles = legs.rightBack.moveLeg(90, 0, -70);
+		angles = legs.rightBack.moveLeg(63, -63, -70);
 		chain.load('rbs', angles.shoulder, 100, 100);
 		chain.load('rbm', angles.main, 0, 100);
 		chain.load('rbf', angles.foot, 0, 100);
@@ -55,7 +54,7 @@ class MoveCrab {
 		chain.play();
 
 		// forward/back full way
-		angles = legs.rightFront.moveLeg(90 - (sx * 10), -csy, -70);
+		angles = legs.rightFront.moveLeg(63 - (sx * 10), 63 + -csy, -70);
 		chain.load('rfs', angles.shoulder, 0, 200);
 		chain.load('rfm', angles.main, 100, 100);
 		chain.load('rff', angles.foot, 0, 200);
@@ -63,7 +62,7 @@ class MoveCrab {
 		chain.load('rms', angles.shoulder, 0, 200);
 		chain.load('rmm', angles.main, 100, 100);
 		chain.load('rmf', angles.foot, 0, 200);
-		angles = legs.rightBack.moveLeg(90 - (sx * 10), -csy, -70);
+		angles = legs.rightBack.moveLeg(63 - (sx * 10), -63 + -csy, -70);
 		chain.load('rbs', angles.shoulder, 0, 200);
 		chain.load('rbm', angles.main, 100, 100);
 		chain.load('rbf', angles.foot, 0, 200);
@@ -71,5 +70,3 @@ class MoveCrab {
 		chain.play();
 	}
 }
-
-module.exports = MoveCrab;

@@ -1,7 +1,6 @@
-const Service = require('cerberus-mvc/Base/Service');
-
-const SerialPort = require('serialport')
-const Readline = require('@serialport/parser-readline')
+import Service from '../../node_modules/cerberus-mvc/Base/Service.js';
+import SerialPort from 'serialport';
+import Readline from '@serialport/parser-readline';
 
 /**
  * @namespace Service
@@ -11,7 +10,7 @@ const Readline = require('@serialport/parser-readline')
  * @copyright 2020 Paul Smith (ulsmith) all rights reserved
  * @license MIT
  */
-class Com extends Service{
+export default class Com extends Service {
 
 	/**
 	 * @public @method constructor
@@ -89,5 +88,3 @@ class Com extends Service{
 		});
 	}
 }
-
-module.exports = Com;

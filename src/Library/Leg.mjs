@@ -1,7 +1,5 @@
-'use strict';
-
-const Kinematics = require('./Kinematics');
-const { Orc } = require('./Orchestrate');
+import Kinematics from './Kinematics.mjs';
+import { Orc } from './Orchestrate.mjs';
 
 // sit at x = 90, y = 0, z = 0
 // Obtuse Scalene Triangle
@@ -19,12 +17,13 @@ const { Orc } = require('./Orchestrate');
 /**
  * @namespace API/Library
  * @class Leg
+ * @exports Leg
  * @description Library class providing legs for roamer
  * @author Paul Smith <p@ulsmith.net>
  * @copyright 2021 (ulsmith.net) all rights reserved
  * @license MIT
  */
-class Leg {
+export default class Leg {
 
 	/**
 	 * @public @method constructor
@@ -79,5 +78,3 @@ class Leg {
 		return { foot, shoulder, main } = this.k.getAngles();
 	}
 }
-
-module.exports = Leg;

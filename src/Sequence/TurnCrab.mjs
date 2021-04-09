@@ -1,14 +1,13 @@
-'use strict';
-
 /**
  * @namespace API/Sequence
- * @class TurnWalk
+ * @class TurnCrab
+ * @exports TrunCrab
  * @description Sequence class providing a canned sequence
  * @author Paul Smith <p@ulsmith.net>
  * @copyright 2021 (ulsmith.net) all rights reserved
  * @license MIT
  */
-class TurnWalk {
+export default class TurnCrab {
 
 	/**
 	 * @public @static @method do
@@ -19,5 +18,3 @@ class TurnWalk {
 	static do(legs, chain) {
 	}
 }
-
-module.exports = TurnWalk;

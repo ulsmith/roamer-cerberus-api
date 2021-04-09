@@ -1,14 +1,13 @@
-'use strict';
-
 /**
  * @namespace API/Sequence
- * @class PostureRun
+ * @class PostureCrab
+ * @exports PostureCrab
  * @description Sequence class providing a canned sequence
  * @author Paul Smith <p@ulsmith.net>
  * @copyright 2021 (ulsmith.net) all rights reserved
  * @license MIT
  */
-class PostureRun {
+export default class PostureCrab {
 
 	/**
 	 * @public @static @method do
@@ -20,11 +19,11 @@ class PostureRun {
 		let angles;
 
 		// step odd legs to position above ground
-		angles = legs.rightFront.moveLeg(63, 63, -100);
+		angles = legs.rightFront.moveLeg(90, 0, -40);
 		chain.load('rfs', angles.shoulder, 200, 200);
 		chain.load('rfm', angles.main, 0, 200);
 		chain.load('rff', angles.foot, 0, 200);
-		angles = legs.rightBack.moveLeg(63, -63, -100);
+		angles = legs.rightBack.moveLeg(90, 0, -40);
 		chain.load('rbs', angles.shoulder, 200, 200);
 		chain.load('rbm', angles.main, 0, 200);
 		chain.load('rbf', angles.foot, 0, 200);
@@ -32,11 +31,11 @@ class PostureRun {
 		chain.play();
 
 		// lower odd legs to position
-		angles = legs.rightFront.moveLeg(63, 63, -130);
+		angles = legs.rightFront.moveLeg(90, 0, -90);
 		chain.load('rfs', angles.shoulder, 0, 200);
 		chain.load('rfm', angles.main, 0, 200);
 		chain.load('rff', angles.foot, 0, 200);
-		angles = legs.rightBack.moveLeg(63, -63, -130);
+		angles = legs.rightBack.moveLeg(90, 0, -90);
 		chain.load('rbs', angles.shoulder, 0, 200);
 		chain.load('rbm', angles.main, 0, 200);
 		chain.load('rbf', angles.foot, 0, 200);
@@ -44,7 +43,7 @@ class PostureRun {
 		chain.play();
 
 		// step even legs to position above ground
-		angles = legs.rightMiddle.moveLeg(90, 0, -100);
+		angles = legs.rightMiddle.moveLeg(90, 0, -40);
 		chain.load('rms', angles.shoulder, 200, 200);
 		chain.load('rmm', angles.main, 0, 200);
 		chain.load('rmf', angles.foot, 0, 200);
@@ -52,7 +51,7 @@ class PostureRun {
 		chain.play();
 
 		// lower even legs to position
-		angles = legs.rightMiddle.moveLeg(90, 0, -130);
+		angles = legs.rightMiddle.moveLeg(90, 0, -90);
 		chain.load('rms', angles.shoulder, 0, 200);
 		chain.load('rmm', angles.main, 0, 200);
 		chain.load('rmf', angles.foot, 0, 200);
@@ -60,5 +59,3 @@ class PostureRun {
 		chain.play();
 	}
 }
-
-module.exports = PostureRun;

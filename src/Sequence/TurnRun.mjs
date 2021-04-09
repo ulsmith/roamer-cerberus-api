@@ -1,14 +1,13 @@
-'use strict';
-
 /**
  * @namespace API/Sequence
- * @class DriveCrab
+ * @class TurnRun
+ * @exports TurnRun
  * @description Sequence class providing a canned sequence
  * @author Paul Smith <p@ulsmith.net>
  * @copyright 2021 (ulsmith.net) all rights reserved
  * @license MIT
  */
-class DriveCrab {
+export default class TurnRun {
 
 	/**
 	 * @public @static @method do
@@ -19,5 +18,3 @@ class DriveCrab {
 	static do(legs, chain) {
 	}
 }
-
-module.exports = DriveCrab;

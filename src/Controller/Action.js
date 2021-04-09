@@ -1,21 +1,16 @@
-'use strict';
-
-const Controller = require('cerberus-mvc/Base/Controller');
-const RestError = require('cerberus-mvc/Error/Rest');
-
-const SerialPort = require('serialport')
-const Readline = require('@serialport/parser-readline')
+import Controller from '../../node_modules/cerberus-mvc/Base/Controller.js';
 
 /**
  * @namespace API/Controller
  * @class Health
  * @extends Controller
+ * @exports Action
  * @description Controller class exposing methods over the routed endpoint
  * @author Paul Smith (ulsmith) <p@ulsmith.net> <pa.ulsmith.net>
  * @copyright 2020 Paul Smith (ulsmith) all rights reserved
  * @license MIT
  */
-class Action extends Controller {
+export default class Action extends Controller {
 
 	/**
 	 * @public @method constructor
@@ -44,5 +39,3 @@ class Action extends Controller {
 		this.$services.ComService.send(request.body).catch(() => this.$socket.emit('notification', { type: 'warning', message: 'Could not send message to serial port' }));	
 	}
 }
-
-module.exports = Action;

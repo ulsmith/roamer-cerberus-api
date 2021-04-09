@@ -1,14 +1,13 @@
-'use strict';
-
 /**
  * @namespace API/Sequence
- * @class DriveRun
+ * @class DriveWalk
+ * @exports DriveWalk
  * @description Sequence class providing a canned sequence
  * @author Paul Smith <p@ulsmith.net>
  * @copyright 2021 (ulsmith.net) all rights reserved
  * @license MIT
  */
-class DriveRun {
+export default class DriveWalk {
 
 	/**
 	 * @public @static @method do
@@ -19,5 +18,3 @@ class DriveRun {
 	static do(legs, chain) {
 	}
 }
-
-module.exports = DriveRun;

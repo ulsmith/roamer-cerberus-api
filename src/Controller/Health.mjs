@@ -1,17 +1,16 @@
-'use strict';
-
-const Controller = require('cerberus-mvc/Base/Controller');
+import Controller from '../../node_modules/cerberus-mvc/Base/Controller.js';
 
 /**
  * @namespace API/Controller
  * @class Health
  * @extends Controller
+ * @exports Health 
  * @description Controller class exposing methods over the routed endpoint
  * @author Paul Smith (ulsmith) <p@ulsmith.net> <pa.ulsmith.net>
  * @copyright 2020 Paul Smith (ulsmith) all rights reserved
  * @license MIT
  */
-class Health extends Controller {
+export default class Health extends Controller {
 
 	/**
 	 * @public @method constructor
@@ -45,5 +44,3 @@ class Health extends Controller {
 		};
 	}
 }
-
-module.exports = Health;

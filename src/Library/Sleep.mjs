@@ -1,14 +1,13 @@
-'use strict';
-
 /**
  * @namespace API/Library
  * @class Sleep
+ * @exports Sleep
  * @description Library class providing async sleep abilty for timing
  * @author Paul Smith <p@ulsmith.net>
  * @copyright 2021 (ulsmith.net) all rights reserved
  * @license MIT
  */
-class Sleep {
+export default class Sleep {
 	/**
 	 * @public @method @static @async seconds
 	 * @description Sleep in seconds
@@ -36,5 +35,3 @@ class Sleep {
 		return new Promise((res, rej) => setTimeout(() => res(), microseconds / 1000));
 	}
 }
-
-module.exports = Sleep;

@@ -1,12 +1,10 @@
-'use strict';
+import JWT from 'jsonwebtoken';
+import Service from '../../node_modules/cerberus-mvc/Base/Service.js';
+import RestError from '../../cerberus-mvc/Error/Rest.js';
+import Crypto from '../../cerberus-mvc/Library/Crypto.js';
 
-const JWT = require('jsonwebtoken');
-const Service = require('cerberus-mvc/Base/Service');
-const RestError = require('cerberus-mvc/Error/Rest');
-const Crypto = require('cerberus-mvc/Library/Crypto');
-
-const UserModel = require('../Model/Sourcing/Identity/User.js');
-const UserAccountModel = require('../Model/Sourcing/Identity/UserAccount.js');
+import UserModel from '../Model/Identity/User.js';
+import UserAccountModel from '../Model/Identity/UserAccount.js';
 
 /**
  * @namespace API/Service
@@ -17,7 +15,7 @@ const UserAccountModel = require('../Model/Sourcing/Identity/UserAccount.js');
  * @copyright 2021 (ulsmith.net) all rights reserved
  * @license MIT
  */
-class Auth extends Service {
+export default class Auth extends Service {
 
 	/**
 	 * @public @method constructor
@@ -395,5 +393,3 @@ class Auth extends Service {
 		return JWT.sign(decoded.payload, process.env.JWT_KEY, { algorithm: 'HS256' });
 	}
 }
-
-module.exports = Auth;
