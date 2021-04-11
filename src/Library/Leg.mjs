@@ -41,16 +41,16 @@ export default class Leg {
 	}
 
 	/**
-	 * @public @method setPins
-	 * @description Set the pins that is to be used for this legs joints
+	 * @public @method setChannels
+	 * @description Set the channels that is to be used for this legs joints
 	 * @param {String} shoulder Shoulder joint and appendage
 	 * @param {String} main Main joint and appendage
 	 * @param {String} foot Foot joint and appendage
 	 */
-	setPins(shoulder, main, foot) {
-		this.shoulder.pin = shoulder;
-		this.main.pin = main;
-		this.foot.pin = foot;
+	setChannels(shoulder, main, foot) {
+		this.shoulder.channel = shoulder;
+		this.main.channel = main;
+		this.foot.channel = foot;
 	}
 
 	/**
@@ -75,6 +75,11 @@ export default class Leg {
 	 */
 	moveLeg(x, y, z) {
 		this.k.moveToPosition(x, y, z);
-		return { foot, shoulder, main } = this.k.getAngles();
+
+		return { 
+			foot: (180 - (this.k.angles.t1 < -45 ? 225 + this.k.angles.t1 : 45 + this.k.angles.t1)),
+			shoulder: (10 - this.k.angles.t2),
+			main: (90 - this.k.angles.t3)
+		};
 	}
 }

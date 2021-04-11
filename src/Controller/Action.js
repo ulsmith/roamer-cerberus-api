@@ -34,8 +34,30 @@ export default class Action extends Controller {
      * @return Promise a response promise resolved or rejected with a raw payload or {status: ..., data: ..., headers: ...} payload
      */
 	socket(request) {
-		if (!this.$services.ComService.connection) return this.$socket.emit('notification', { type: 'warning', message: 'Serial port is not connected' });
+		// if (!this.$services.ComService.connection) return this.$socket.emit('notification', { type: 'warning', message: 'Serial port is not connected' });
 
-		this.$services.ComService.send(request.body).catch(() => this.$socket.emit('notification', { type: 'warning', message: 'Could not send message to serial port' }));	
+		// this.$services.ComService.send(request.body).catch(() => this.$socket.emit('notification', { type: 'warning', message: 'Could not send message to serial port' }));	
+		// console.log(request);
+
+
+
+		// console.log(request);
+
+		// sit
+		// this.$services.sequencer.sequence('PostureSit');
+
+		// ////////////////////////////////////////
+
+		// for most part appears to work now
+
+		// need to put new brain in body
+		// need to change the payload coming in
+		// need to patch this through to sequences
+		// need to look at jitteryness
+		// think we may need to add some promise chains in somewhere
+
+
+
+		return 'fdfsfs';
 	}
 }

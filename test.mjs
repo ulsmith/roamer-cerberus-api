@@ -3,32 +3,19 @@ import Sleep from './src/Library/Sleep.mjs';
 
 const sd = new ServoDriver({ address: 0x40, device: '/dev/i2c-1', debug: false });
 
-const servo_min = 400; // 100 Min pulse length out of 4096
-const servo_mid = 1235; // 313 Min pulse length out of 4096
-const servo_max = 2070; // 525 Max pulse length out of 4096
-
-sd.setFrequency(200);
-
-const loop = function () {
+const loop = () => {
 	return Sleep.seconds(1)
-		.then(function () {
-			console.log(servo_min);
-			return sd.setPulse(0, 0, servo_min)
-		})
-		.then(function () { return Sleep.seconds(1) })
-		.then(function () {
-			console.log(servo_mid);
-			return sd.setPulse(0, 0, servo_mid)
-		})
-		.then(function () { return Sleep.seconds(1) })
-		.then(function () {
-			console.log(servo_max)
-			return sd.setPulse(0, 0, servo_max)
-		})
-		.then(loop)
+		.then(() => sd.setAngle(0, 0))
+		.then(() => Sleep.seconds(1))
+		.then(() => sd.setAngle(0, 45))
+		.then(() => Sleep.seconds(1))
+		.then(() => sd.setAngle(0, 90))
+		.then(() => Sleep.seconds(1))
+		.then(() => sd.setAngle(0, 135))
+		.then(() => Sleep.seconds(1))
+		.then(() => sd.setAngle(0, 180))
+		.then(loop);
 }
 
-sd.init()
-	.then(() => Sleep.seconds(1))
-	.then(loop);
+Sleep.seconds(1).then(loop);
 

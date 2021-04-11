@@ -1,7 +1,7 @@
 import Application from './node_modules/cerberus-mvc/System/Application.js';
 import CorsMiddleware from './node_modules/cerberus-mvc/Middleware/Cors.js';
 import AuthMiddleware from './src/Middleware/Auth.mjs';
-import ComService from './src/Service/Com.mjs';
+import SequencerService from './src/Service/Sequencer.mjs';
 // import AuthService from './src/Service/Auth.js');
 import express from 'express';
 import requestIp from 'request-ip';
@@ -27,7 +27,7 @@ server.use(express.json())
 server.use('/', (req, res) => {
 	let app = new Application('express');
 	let corsMiddleware = new CorsMiddleware();
-
+	
 	app.middleware(corsMiddleware);
 
 	return app.run(req).then((response) => res.set(response.headers).status(response.status).send(response.body));
@@ -39,16 +39,15 @@ io.on('connection', (socket) => {
 	const app = new Application('socket');
 	// const authService = new AuthService();
 	const authMiddleware = new AuthMiddleware();
-	const comService = new ComService();
+	const sequencerService = new SequencerService();
 
 	// app.service(authService);
+	app.service(sequencerService);
 	app.middleware(authMiddleware);
 	// here we need to somehow auth the user and drop connect if not authed
 	
 	socket.onAny((route, data) => {		
 		console.log(route, data, socket.id);
-
-		app.service(comService);
 
 		app.run({ route, data, socket, io });
 	});

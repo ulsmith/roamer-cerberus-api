@@ -6,7 +6,7 @@ import MoveCrab from './MoveCrab.mjs';
 import MoveWalk from './MoveWalk.mjs';
 import MoveRun from './MoveRun.mjs';
 
-export {
+export default {
 	PostureSit,
 	PostureCrab,
 	PostureWalk,

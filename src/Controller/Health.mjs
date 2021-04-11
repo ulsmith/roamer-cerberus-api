@@ -30,11 +30,10 @@ export default class Health extends Controller {
     /**
      * @public @method get
      * @description Ping the system to check whats health and whats not
-     * @param {*} event The event that caused the controller to run
-     * @param {*} context The context of the invocation from AWS lambda
+     * @param {*} request The request that caused the controller to run
      * @return Promise a response promise resolved or rejected with a raw payload or {status: ..., data: ..., headers: ...} payload
      */
-	get(event, context) {
+	async get(request) {
 		return {
 			name: this.$environment.API_NAME,
 			version: this.$environment.API_VERSION,

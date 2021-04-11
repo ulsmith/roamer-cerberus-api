@@ -6,6 +6,19 @@
  * @author Paul Smith <p@ulsmith.net>
  * @copyright 2021 (ulsmith.net) all rights reserved
  * @license MIT
+ * @note
+ * sit at x = 90, y = 0, z = 0
+ * Obtuse Scalene Triangle
+ * Side a = 125
+ * Side b = 72
+ * Side c = 90
+ * .
+ *  .   .
+ *   .      .  125
+ * 72 .         .
+ *     .            .
+ *      .................
+ *             90
  */
 export default class PostureSit {
 

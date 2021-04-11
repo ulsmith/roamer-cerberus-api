@@ -1,3 +1,5 @@
+import ServoDriver from './ServoDriver.mjs';
+
 /**
  * @namespace API/Library
  * @class Orc
@@ -14,8 +16,7 @@ class Orc {
 	 * @description Base method when instantiating class
 	 */
 	constructor() {
-		this.servo;
-		this.pin;
+		this.channel;
 		this.angle;
 		this.home;
 	}
@@ -38,6 +39,7 @@ class Orchestrate {
 	 */
 	constructor() {
 		this.chain = {};
+		this.driver = new ServoDriver({ address: 0x40, device: '/dev/i2c-1', debug: false });
 	}
 
 	add(key, orc) {
@@ -69,29 +71,13 @@ class Orchestrate {
 	}
 
 	/**
-	 * @public @method assign
-	 * @description Run through servos and assign them to pins
-	 */
-	assign() {
-		for (const key in this.chain) {
-			/*
-			chain[key].orc.servo = Servo();
-			chain[key].orc.servo.attach(chain[i].orc -> pin);
-			*/
-			console.log(key + ':assign servo');
-			console.log(key + ':attach pin');
-		}
-	}
-
-	/**
 	 * @public @method reset
 	 * @description Run through servos and reset them
 	 */
 	reset() {
 		for (const key in this.chain) {
-			chain[key].orc.angle = chain[key].orc.home;
-			// chain[key].orc.servo.write(chain[key].orc.angle);
-			console.log(key + ':move servo to home');
+			this.chain[key].orc.angle = this.chain[key].orc.home;
+			this.driver.setAngle(this.chain[key].orc.channel, this.chain[key].orc.angle);
 		}
 	}
 
@@ -101,11 +87,11 @@ class Orchestrate {
 	 */
 	clear() {
 		// reset chain values
-		for (const key in chain) {
-			chain[key].origin = NULL;
-			chain[key].angle = NULL;
-			chain[key].delay = NULL;
-			chain[key].time = NULL;
+		for (const key in this.chain) {
+			this.chain[key].origin = NULL;
+			this.chain[key].angle = NULL;
+			this.chain[key].delay = NULL;
+			this.chain[key].time = NULL;
 		}
 	}
 
@@ -117,19 +103,19 @@ class Orchestrate {
 		const start = Date.now();
 		let now = Date.now();
 		let done = false;
-
+		
 		while (!done) {
 			done = true;
 
-			for (const key in chain) {
+			for (const key in this.chain) {
 				now = Date.now();
-				let res = this.move(chain[key], start, now);
+				let res = this.move(this.chain[key], start, now);
 				if (done) done = res;
 			}
 		}
 
 		// clear up cache
-		for (const key in chain) chain[key].origin = null;
+		for (const key in this.chain) this.chain[key].origin = null;
 	}
 
 	/**
@@ -156,8 +142,11 @@ class Orchestrate {
 			else if (chainable.angle < chainable.origin && chainable.orc.angle < chainable.angle) chainable.orc.angle = chainable.angle;
 
 			// write movement
-			// chainable.orc.servo.write(chainable.orc.angle);
-			console.log('move servo chainable');
+			try {
+				this.driver.setAngle(chainable.orc.channel, chainable.orc.angle);
+			} catch (err) {
+				console.log(err);
+			}
 		}
 
 		// did we make it all the way?
