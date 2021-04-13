@@ -77,9 +77,9 @@ export default class Leg {
 		this.k.moveToPosition(x, y, z);
 
 		return { 
-			foot: (180 - (this.k.angles.t1 < -45 ? 225 + this.k.angles.t1 : 45 + this.k.angles.t1)),
-			shoulder: (10 - this.k.angles.t2),
-			main: (90 - this.k.angles.t3)
+			shoulder: (90 - this.k.angles.t3),
+			main: (180 - (this.k.angles.t1 < -45 ? 225 + this.k.angles.t1 : 45 + this.k.angles.t1)),
+			foot: (10 - this.k.angles.t2)
 		};
 	}
 }

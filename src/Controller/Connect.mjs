@@ -4,13 +4,13 @@ import Controller from '../../node_modules/cerberus-mvc/Base/Controller.js';
  * @namespace API/Controller
  * @class Health
  * @extends Controller
- * @exports Action
+ * @exports Move
  * @description Controller class exposing methods over the routed endpoint
  * @author Paul Smith (ulsmith) <p@ulsmith.net> <pa.ulsmith.net>
  * @copyright 2020 Paul Smith (ulsmith) all rights reserved
  * @license MIT
  */
-export default class Action extends Controller {
+export default class Move extends Controller {
 
 	/**
 	 * @public @method constructor
@@ -34,30 +34,18 @@ export default class Action extends Controller {
      * @return Promise a response promise resolved or rejected with a raw payload or {status: ..., data: ..., headers: ...} payload
      */
 	socket(request) {
-		// if (!this.$services.ComService.connection) return this.$socket.emit('notification', { type: 'warning', message: 'Serial port is not connected' });
+		// if (!!this.$services.ComService.connection) return;
 
-		// this.$services.ComService.send(request.body).catch(() => this.$socket.emit('notification', { type: 'warning', message: 'Could not send message to serial port' }));	
-		// console.log(request);
+		// this.$services.ComService.connect()
+		// 	.then(() => this.$services.ComService.listen())
+		// 	.then(() => this.$socket.emit('notification', { type: 'info', message: 'Connected to serial port' }))
+		// 	.catch((err) => this.$socket.emit('notification', { type: 'warning', message: 'Could not connect to serial port' }));	
 
+		// return 'fdsf';
 
-
-		// console.log(request);
-
-		// sit
-		// this.$services.sequencer.sequence('PostureSit');
-
-		// ////////////////////////////////////////
-
-		// for most part appears to work now
-
-		// need to put new brain in body
-		// need to change the payload coming in
-		// need to patch this through to sequences
-		// need to look at jitteryness
-		// think we may need to add some promise chains in somewhere
-
-
-
-		return 'fdfsfs';
+		this.$socket.emit('roamer-request', JSON.stringify({ reply: 'received', request: request.body }));
+		this.$socket.emit('roamer-response', JSON.stringify({ reply: 'connected' }));
+		this.$socket.emit('roamer-response', JSON.stringify({ reply: 'listening' }));
+		this.$socket.emit('notification', JSON.stringify({ type: 'info', message: 'Connected to serial port' }));
 	}
 }

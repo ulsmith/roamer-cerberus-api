@@ -109,48 +109,35 @@ class Orchestrate {
 
 			for (const key in this.chain) {
 				now = Date.now();
-				let res = this.move(this.chain[key], start, now);
-				if (done) done = res;
+
+				// capture the start position
+				if (!this.chain[key].origin) this.chain[key].origin = this.chain[key].orc.angle;
+
+				// capture the increment amount if not set
+				const inc = (this.chain[key].angle - this.chain[key].origin) / this.chain[key].time;
+
+				// move by increment over time added to current angle
+				if (now >= start + this.chain[key].delay && this.chain[key].angle != this.chain[key].orc.angle) {
+					// write new angle
+					this.chain[key].orc.angle = (this.chain[key].origin + (inc * (now - (start + this.chain[key].delay))));
+
+					// should we overrid it if past?
+					if ((this.chain[key].angle > this.chain[key].origin && this.chain[key].orc.angle > this.chain[key].angle) || (this.chain[key].angle < this.chain[key].origin && this.chain[key].orc.angle < this.chain[key].angle)) this.chain[key].orc.angle = this.chain[key].angle;
+
+					// write movement
+					try {
+						this.driver.setAngle(this.chain[key].orc.channel, this.chain[key].orc.angle);
+					} catch (err) {
+						console.log(err);
+					}
+				}
+
+				if (done) done = !this.chain[key].angle || this.chain[key].angle == this.chain[key].orc.angle;
 			}
 		}
 
 		// clear up cache
 		for (const key in this.chain) this.chain[key].origin = null;
-	}
-
-	/**
-	 * @public @method move
-	 * @description Move the actual chainable item and return its state as at angle or not
-	 * @param {Object} chainable The chianable object
-	 * @param {Number} start The start time as timestamp
-	 * @param {Number} now The now time as timestamp
-	 */
-	move(chainable, start, now) {
-		// capture the start position
-		if (!chainable.origin) chainable.origin = chainable.orc.angle;
-
-		// capture the increment amount if not set
-		const inc = (chainable.angle - chainable.origin) / chainable.time;
-
-		// move by increment over time added to current angle
-		if (now >= start + chainable.delay && chainable.angle != chainable.orc.angle) {
-			// write new angle
-			chainable.orc.angle = (chainable.origin + (inc * (now - (start + chainable.delay))));
-
-			// should we overrid it if past?
-			if (chainable.angle > chainable.origin && chainable.orc.angle > chainable.angle) chainable.orc.angle = chainable.angle;
-			else if (chainable.angle < chainable.origin && chainable.orc.angle < chainable.angle) chainable.orc.angle = chainable.angle;
-
-			// write movement
-			try {
-				this.driver.setAngle(chainable.orc.channel, chainable.orc.angle);
-			} catch (err) {
-				console.log(err);
-			}
-		}
-
-		// did we make it all the way?
-		return chainable.angle == chainable.orc.angle;
 	}
 }
 

@@ -42,31 +42,26 @@ export default class ServoDriver {
 			200: { start: 400, multiply: 9.277777778 }
 		};
 
-		this.options = Object.assign({}, { address: 0x40, device: '/dev/i2c-1', debug: false, init: true, frequency: 50 }, options);
-		this.i2c = new I2C(this.options.address, { device: this.options.device, debug: this.options.debug });
+		this.options = Object.assign({}, { address: 0x40, device: '/dev/i2c-1', init: true, frequency: 200 }, options);
+		this.i2c = new I2C(this.options.address, { device: this.options.device });
 
 		if (this.options.init) this.init();
 		if (this.options.frequency) this.setFrequency(this.options.frequency);
 	}
 
 	async init() {
-		if (this.options.debug) {
-			console.log(`device: //${this.options.device}, adress: ${this.options.address}, debug: ${this.options.debug}`);
-			console.log(`Reseting... mode1: ${this.m1Hex}`);
-		}
-
 		try {
+			await Sleep.milliseconds(20);
 			this.setPulse(0, 0);
 
+			await Sleep.milliseconds(20);
 			this.i2c.writeBytes(this.m2Hex, this.outDrvHex);
-			await this.i2c.writeBytes(this.m1Hex, this.allCallHex);
-			await Sleep.microseconds(5000);
+			this.i2c.writeBytes(this.m1Hex, this.allCallHex);
+			await Sleep.milliseconds(20);
 
 			const mode1 = await this.i2c.readBytes(this.m1Hex, 1).then((m) => m = m & ~this.sleepHex);
-			await this.i2c.writeBytes(this.m1Hex, mode1);
-			await Sleep.microseconds(5000);
-
-			if (this.options.debug) console.log('init complete');
+			this.i2c.writeBytes(this.m1Hex, mode1);
+			await Sleep.milliseconds(20);
 		} catch (e) {
 			console.error('error with init', e);
 		}
@@ -76,44 +71,33 @@ export default class ServoDriver {
 		let pscale;
 		let pscaleVal = ((25000000.0 / 4096.0) / frequency) - 1.0;
 
-		if (this.options.debug) {
-			console.log(`Setting PWM frequency: ${frequency}Hz`);
-			console.log(`Estimated prescale value: ${pscaleVal}`);
-		}
-
 		pscale = Math.floor(pscaleVal + 0.5);
-
-		if (this.options.debug) console.log(`Final prescale: ${pscale}`);
 
 		const data = await this.i2c.readBytes(this.m1Hex, 1);
 		const oldm = data[0];
 		const newm = (oldm & 0x7F) | 0x10;
 
-		if (this.options.debug) console.log(`prescale: ${Math.floor(pscale)}, new mode: ${newm.toString(16)}`);
-
+		await Sleep.milliseconds(20);
 		this.i2c.writeBytes(this.m1Hex, newm);
 		this.i2c.writeBytes(this.pscaleHex, Math.floor(pscale));
 		this.i2c.writeBytes(this.m1Hex, oldm);
-		await Sleep.microseconds(5000);
-		await this.i2c.writeBytes(this.m1Hex, oldm | 0x80);
+		await Sleep.milliseconds(20);
+		this.i2c.writeBytes(this.m1Hex, oldm | 0x80);
+		await Sleep.milliseconds(20);
 	}
 
 	async setPulse(channel, on, off) {
-		if (this.options.debug) console.log(`Set PWM channel [${channel}] on: ${on} off: ${off}`);
-
 		this.i2c.writeBytes(this.onLowHex + 4 * channel, on & 0xFF);
 		this.i2c.writeBytes(this.onHighHex + 4 * channel, on >> 8);
 		this.i2c.writeBytes(this.offLowHex + 4 * channel, off & 0xFF);
-		await this.i2c.writeBytes(this.offHighHex + 4 * channel, off >> 8);
+		this.i2c.writeBytes(this.offHighHex + 4 * channel, off >> 8);
 	}
 
 	async setPulseAll(on, off) {
-		if (this.options.debug) console.log(`Set ALL PWM channels on: ${on} off: ${off}`);
-
 		this.i2c.writeBytes(this.allOnLowHex, on & 0xFF);
 		this.i2c.writeBytes(this.allOnHighHex, on >> 8);
 		this.i2c.writeBytes(this.allOffLowHex, off & 0xFF);
-		await this.i2c.writeBytes(this.allOffHighHex, off >> 8);
+		this.i2c.writeBytes(this.allOffHighHex, off >> 8);
 	}
 
 	async setAngle(channel, angle) {

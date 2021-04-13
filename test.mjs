@@ -5,15 +5,15 @@ const sd = new ServoDriver({ address: 0x40, device: '/dev/i2c-1', debug: false }
 
 const loop = () => {
 	return Sleep.seconds(1)
-		.then(() => sd.setAngle(0, 0))
+		.then(() => sd.setAngle(0, 70))
 		.then(() => Sleep.seconds(1))
-		.then(() => sd.setAngle(0, 45))
+		.then(() => sd.setAngle(0, 80))
 		.then(() => Sleep.seconds(1))
 		.then(() => sd.setAngle(0, 90))
 		.then(() => Sleep.seconds(1))
-		.then(() => sd.setAngle(0, 135))
+		.then(() => sd.setAngle(0, 100))
 		.then(() => Sleep.seconds(1))
-		.then(() => sd.setAngle(0, 180))
+		.then(() => sd.setAngle(0, 110))
 		.then(loop);
 }
 

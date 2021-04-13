@@ -15,7 +15,7 @@
 	},
 	"dependencies": {
 		"body-parser": "^1.19.0",
-		"cerberus-mvc": "^1.0.24",
+		"cerberus-mvc": "^1.0.25",
 		"cluster": "^0.7.7",
 		"express": "^4.17.1",
 		"node-i2c-js": "^1.0.2",
