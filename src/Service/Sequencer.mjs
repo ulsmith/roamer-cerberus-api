@@ -22,6 +22,7 @@ export default class Sequencer extends Service {
 		super();
 
 		this.service = 'sequencer';
+		this.sig;
 
 		// create legs
 		this.legs = {};
@@ -66,6 +67,14 @@ export default class Sequencer extends Service {
 
 	sequence(name, d1, d2) {
 		if (!Sequences[name]) return;
-		return Sequences[name].do(this.legs, this.chain, d1, d2);
+
+		let sig = this.sig = name + Date.now();
+		this.name = name;
+
+		clearInterval(this.intval);
+		let intval = this.intval = setInterval(() => {
+			let repeat = Sequences[this.name].do(this.legs, this.chain, d1, d2);
+			if (sig != this.sig || !repeat) clearInterval(intval);
+		}, 0);
 	}
 }

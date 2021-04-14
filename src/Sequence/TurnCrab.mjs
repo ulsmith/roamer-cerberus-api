@@ -14,6 +14,7 @@ export default class TurnCrab {
 	 * @description perform the sequence
 	 * @param {Object<Leg>} legs The object collection containing Leg objects (the legs)
 	 * @param {Object<Orchastrate>} legs The object collection containing Orchastrate objects (the chain)
+	 * @return {Boolean} true to repeat unitl told to stop and false to complete once
 	 */
 	static do(legs, chain) {
 	}

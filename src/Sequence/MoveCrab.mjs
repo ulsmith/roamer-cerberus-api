@@ -16,10 +16,12 @@ export default class MoveCrab {
 	 * @param {Object<Orchastrate>} legs The object collection containing Orchastrate objects (the chain)
 	 * @param {Number} sx The x as a speed reference from -15 <> 0 <> 15, controlling the speed to move in that direction
 	 * @param {Number} sy The y as a speed reference from -15 <> 0 <> 15, controlling the speed to move in that direction
+	 * @return {Boolean} true to repeat unitl told to stop and false to complete once
 	 */
 	static do(legs, chain, sx, sy) {
 		let angles;
 		let csy = sy > 0 ? 15 + (sy * 2) : (sy < 0 ? -15 + (sy * 2) : 0);
+		if (sx == 0 && sy == 0) return;
 
 		// move forward/back and up
 		angles = legs.rightFront.moveLeg(90 + (sx * 10), csy, -40);
@@ -68,5 +70,7 @@ export default class MoveCrab {
 		chain.load('rbf', angles.foot, 0, 200);
 
 		chain.play();
+
+		return true;
 	}
 }

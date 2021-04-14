@@ -8,7 +8,6 @@
  * @license MIT
  */
 export default class MoveRun {
-
 	/**
 	 * @public @static @method do
 	 * @description perform the sequence
@@ -16,10 +15,12 @@ export default class MoveRun {
 	 * @param {Object<Orchastrate>} legs The object collection containing Orchastrate objects (the chain)
 	 * @param {Number} sx The x as a speed reference from -15 <> 0 <> 15, controlling the speed to move in that direction
 	 * @param {Number} sy The y as a speed reference from -15 <> 0 <> 15, controlling the speed to move in that direction
+	 * @return {Boolean} true to repeat unitl told to stop and false to complete once
 	 */
 	static do(legs, chain, sx, sy) {
 		let angles;
 		let csy = sy > 0 ? 15 + (sy * 2) : (sy < 0 ? -15 + (sy * 2) : 0);
+		if (sx == 0 && sy == 0) return;
 
 		// move forward/back and up
 		angles = legs.rightFront.moveLeg(63 + (sx * 10), 63 + csy, -100);
@@ -65,5 +66,7 @@ export default class MoveRun {
 		chain.load('rbm', angles.main, 50, 50);
 		chain.load('rbf', angles.foot, 0, 100);
 		chain.play();
+
+		return true;
 	}
 }
