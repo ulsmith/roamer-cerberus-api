@@ -7,7 +7,7 @@
 			"API_VERSION": "0.0.1",
 			"API_MODE": "development",
 			"API_CORS_LIST": "http://localhost,http://localhost:8181,http://localhost:8081",
-			"API_SERIAL_PORT": "/dev/ttyACM0"
+			"API_SERVO": "disconnected"
 		}
 	},
 	"resources": [

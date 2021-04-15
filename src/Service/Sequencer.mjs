@@ -22,6 +22,7 @@ export default class Sequencer extends Service {
 		super();
 
 		this.service = 'sequencer';
+		this.ready;
 		this.sig;
 
 		// create legs
@@ -42,6 +43,8 @@ export default class Sequencer extends Service {
 		this.legs.rightFront.setHomes(90, 90, 90);
 		this.legs.rightMiddle.setHomes(90, 90, 90);
 		this.legs.rightBack.setHomes(90, 90, 90);
+
+		if (this.$environment.API_SERVO === 'disconnected') return console.log(`API_SERVO is disconnected, simulating instantiation of Sequencer service`);
 		
 		// apply leg joints to orchestration chain
 		this.chain = new Orchestrate();
@@ -54,26 +57,28 @@ export default class Sequencer extends Service {
 		this.chain.add('rbs', this.legs.rightBack.shoulder);
 		this.chain.add('rbm', this.legs.rightBack.main);
 		this.chain.add('rbf', this.legs.rightBack.foot);
-
-		// reset
-		console.log('reset it');
-		this.reset();
 	}
 	
 	reset() {
-		console.log('reset');
+		if (this.$environment.API_SERVO === 'disconnected') return console.log('API_SERVO is disconnected, simulating reset');
+
 		this.chain.reset();
+		this.ready = true;
 	}
 
-	sequence(name, d1, d2) {
-		if (!Sequences[name]) return;
+	sequence(data) {
+		const action = data.action ? data.action.charAt(0).toUpperCase() + data.action.slice(1).toLowerCase() : '';
+		const posture = data.posture ? data.posture.charAt(0).toUpperCase() + data.posture.slice(1).toLowerCase() : '';
 
-		let sig = this.sig = name + Date.now();
-		this.name = name;
+		if (!Sequences[action + posture] || !this.ready) return;
+		if (this.$environment.API_SERVO === 'disconnected') return console.log(`API_SERVO is disconnected, simulating sequence [${action + posture}:${data}]`);
+
+		let sig = this.sig = action + posture + Date.now();
+		this.name = action + posture;
 
 		clearInterval(this.intval);
 		let intval = this.intval = setInterval(() => {
-			let repeat = Sequences[this.name].do(this.legs, this.chain, d1, d2);
+			let repeat = Sequences[this.name].do(this.legs, this.chain, data);
 			if (sig != this.sig || !repeat) clearInterval(intval);
 		}, 0);
 	}

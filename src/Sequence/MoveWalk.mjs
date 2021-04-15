@@ -13,25 +13,25 @@ export default class MoveWalk {
 	 * @description perform the sequence
 	 * @param {Object<Leg>} legs The object collection containing Leg objects (the legs)
 	 * @param {Object<Orchastrate>} legs The object collection containing Orchastrate objects (the chain)
-	 * @param {Number} sx The x as a speed reference from -15 <> 0 <> 15, controlling the speed to move in that direction
-	 * @param {Number} sy The y as a speed reference from -15 <> 0 <> 15, controlling the speed to move in that direction
+	 * @param {Object} data The data object passed to the sequence such as the amount to move
 	 * @return {Boolean} true to repeat unitl told to stop and false to complete once
 	 */
-	static do(legs, chain, sx, sy) {
+	static do(legs, chain, data) {
+		if (data.x == 0 && data.y == 0) return;
+
 		let angles;
-		let csy = sy > 0 ? 15 + (sy * 2) : (sy < 0 ? -15 + (sy * 2) : 0);
-		if (sx == 0 && sy == 0) return;
+		let y = data.y > 0 ? 15 + (data.y * 2) : (data.y < 0 ? -15 + (data.y * 2) : 0);
 
 		// move forward/back and up
-		angles = legs.rightFront.moveLeg(63 + (sx * 10), 63 + csy, -40);
+		angles = legs.rightFront.moveLeg(63 + (data.x * 10), 63 + y, -40);
 		chain.load('rfs', angles.shoulder, 0, 200);
 		chain.load('rfm', angles.main, 0, 200);
 		chain.load('rff', angles.foot, 0, 200);
-		angles = legs.rightMiddle.moveLeg(90 - (sx * 10), -csy, -40);
+		angles = legs.rightMiddle.moveLeg(90 - (data.x * 10), -y, -40);
 		chain.load('rms', angles.shoulder, 0, 200);
 		chain.load('rmm', angles.main, 0, 200);
 		chain.load('rmf', angles.foot, 0, 200);
-		angles = legs.rightBack.moveLeg(63 + (sx * 10), -63 + csy, -40);
+		angles = legs.rightBack.moveLeg(63 + (data.x * 10), -63 + y, -40);
 		chain.load('rbs', angles.shoulder, 0, 200);
 		chain.load('rbm', angles.main, 0, 200);
 		chain.load('rbf', angles.foot, 0, 200);
@@ -55,15 +55,15 @@ export default class MoveWalk {
 		chain.play();
 
 		// forward/back full way
-		angles = legs.rightFront.moveLeg(63 - (sx * 10), 63 + -csy, -70);
+		angles = legs.rightFront.moveLeg(63 - (data.x * 10), 63 + -y, -70);
 		chain.load('rfs', angles.shoulder, 0, 200);
 		chain.load('rfm', angles.main, 100, 100);
 		chain.load('rff', angles.foot, 0, 200);
-		angles = legs.rightMiddle.moveLeg(90 + (sx * 10), csy, -70);
+		angles = legs.rightMiddle.moveLeg(90 + (data.x * 10), y, -70);
 		chain.load('rms', angles.shoulder, 0, 200);
 		chain.load('rmm', angles.main, 100, 100);
 		chain.load('rmf', angles.foot, 0, 200);
-		angles = legs.rightBack.moveLeg(63 - (sx * 10), -63 + -csy, -70);
+		angles = legs.rightBack.moveLeg(63 - (data.x * 10), -63 + -y, -70);
 		chain.load('rbs', angles.shoulder, 0, 200);
 		chain.load('rbm', angles.main, 100, 100);
 		chain.load('rbf', angles.foot, 0, 200);

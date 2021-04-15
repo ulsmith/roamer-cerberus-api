@@ -14,8 +14,9 @@ export default class DriveWalk {
 	 * @description perform the sequence
 	 * @param {Object<Leg>} legs The object collection containing Leg objects (the legs)
 	 * @param {Object<Orchastrate>} legs The object collection containing Orchastrate objects (the chain)
+	 * @param {Object} data The data object passed to the sequence such as the amount to move
 	 * @return {Boolean} true to repeat unitl told to stop and false to complete once
 	 */
-	static do(legs, chain) {
+	static do(legs, chain, data) {
 	}
 }

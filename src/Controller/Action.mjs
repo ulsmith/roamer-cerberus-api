@@ -34,73 +34,11 @@ export default class Action extends Controller {
      * @return Promise a response promise resolved or rejected with a raw payload or {status: ..., data: ..., headers: ...} payload
      */
 	socket(request) {
-		// if (!this.$services.ComService.connection) return this.$socket.emit('notification', { type: 'warning', message: 'Serial port is not connected' });
-
-		// this.$services.ComService.send(request.body).catch(() => this.$socket.emit('notification', { type: 'warning', message: 'Could not send message to serial port' }));	
-		// console.log(request);
-
-
-
-		// console.log(request);
-
-		// sit
-		// this.$services.sequencer.sequence('PostureSit');
-
-		// ////////////////////////////////////////
-
-		// for most part appears to work now
-
-		// need to change the payload coming in
-		// need to patch this through to sequences
-		// need to look at jitteryness
-		// think we may need to add some promise chains in somewhere
-
-		// console.log(request.body);
-
 		if (!request.body) return;
+		if (!this.$services.sequencer.ready) return this.$socket.emit('notification', JSON.stringify({ type: 'warning', message: 'ROAMer is not ready, connect first' }));
 
-		const body = JSON.parse(request.body);
-		const action = body.action ? body.action.charAt(0).toUpperCase() + body.action.slice(1).toLowerCase() : '';
-		const posture = body.posture ? body.posture.charAt(0).toUpperCase() + body.posture.slice(1).toLowerCase() : '';
-
-		console.log(action + posture);
-		// console.log(this.$services);
-		this.$services.sequencer.sequence(action + posture, body.x, body.y);
-
-
-		// /connect undefined Oemu2lG9ePzX2rocAAAD
-		// /disconnect undefined Oemu2lG9ePzX2rocAAAD
-		// /connect undefined Oemu2lG9ePzX2rocAAAD
-				
-		// /action {"action":"posture","posture":"sit"} Oemu2lG9ePzX2rocAAAD
-		// {"action":"posture","posture":"sit"}
-		
-		// /action {"action":"posture","posture":"crab"} Oemu2lG9ePzX2rocAAAD
-		// {"action":"posture","posture":"crab"}
-		
-		// /action {"action":"posture","posture":"walk"} Oemu2lG9ePzX2rocAAAD
-		// {"action":"posture","posture":"walk"}
-		
-		// /action {"action":"posture","posture":"run"} Oemu2lG9ePzX2rocAAAD
-		// {"action":"posture","posture":"run"}
-		
-		// /action {"action":"move","posture":"run","x":0,"y":0} Oemu2lG9ePzX2rocAAAD
-		// {"action":"move","posture":"run","x":0,"y":0}
-		
-		// /action {"action":"move","posture":"run","x":0,"y":1} Oemu2lG9ePzX2rocAAAD
-		// {"action":"move","posture":"run","x":0,"y":1}
-		
-		// /action {"action":"move","posture":"run","x":0,"y":2} Oemu2lG9ePzX2rocAAAD
-		// {"action":"move","posture":"run","x":0,"y":2}
-		
-		// /action {"action":"move","posture":"run","x":1,"y":2} Oemu2lG9ePzX2rocAAAD
-		// {"action":"move","posture":"run","x":1,"y":2}
-		
-		// /action {"action":"move","posture":"run","x":2,"y":2} Oemu2lG9ePzX2rocAAAD
-		// {"action":"move","posture":"run","x":2,"y":2}
-		
-		// /action {"action":"stop"} Oemu2lG9ePzX2rocAAAD
-		// {"action":"stop"}
-
+		this.$socket.emit('roamer-request', JSON.stringify({ reply: 'received', request: request.body }));
+		this.$services.sequencer.sequence(JSON.parse(request.body));	
+		this.$socket.emit('roamer-response', JSON.stringify({ reply: `Completed action ${action + posture}` }));
 	}
 }

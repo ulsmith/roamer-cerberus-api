@@ -14,11 +14,10 @@ export default class Stop {
 	 * @description perform the sequence
 	 * @param {Object<Leg>} legs The object collection containing Leg objects (the legs)
 	 * @param {Object<Orchastrate>} legs The object collection containing Orchastrate objects (the chain)
-	 * @param {Number} sx The x as a speed reference from -15 <> 0 <> 15, controlling the speed to move in that direction
-	 * @param {Number} sy The y as a speed reference from -15 <> 0 <> 15, controlling the speed to move in that direction
+	 * @param {Object} data The data object passed to the sequence such as the amount to move
 	 * @return {Boolean} true to repeat unitl told to stop and false to complete once
 	 */
-	static do(legs, chain, sx, sy) {
-		
+	static do(legs, chain, data) {
+		// we use this as a blank class to stop all actions...
 	}
 }

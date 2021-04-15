@@ -34,18 +34,14 @@ export default class Move extends Controller {
      * @return Promise a response promise resolved or rejected with a raw payload or {status: ..., data: ..., headers: ...} payload
      */
 	socket(request) {
-		// if (!!this.$services.ComService.connection) return;
+		if (!!this.$services.sequencer.ready) return;
 
-		// this.$services.ComService.connect()
-		// 	.then(() => this.$services.ComService.listen())
-		// 	.then(() => this.$socket.emit('notification', { type: 'info', message: 'Connected to serial port' }))
-		// 	.catch((err) => this.$socket.emit('notification', { type: 'warning', message: 'Could not connect to serial port' }));	
-
-		// return 'fdsf';
-
-		this.$socket.emit('roamer-request', JSON.stringify({ reply: 'received', request: request.body }));
-		this.$socket.emit('roamer-response', JSON.stringify({ reply: 'connected' }));
-		this.$socket.emit('roamer-response', JSON.stringify({ reply: 'listening' }));
-		this.$socket.emit('notification', JSON.stringify({ type: 'info', message: 'Connected to serial port' }));
+		setTimeout(() => {
+			this.$services.sequencer.reset();
+	
+			this.$socket.emit('roamer-request', JSON.stringify({ reply: 'received', request: request.body }));
+			this.$socket.emit('roamer-response', JSON.stringify({ reply: 'connected' }));
+			this.$socket.emit('notification', JSON.stringify({ type: 'info', message: 'Connected... ROAMer is ready' }));
+		}, 2000);
 	}
 }

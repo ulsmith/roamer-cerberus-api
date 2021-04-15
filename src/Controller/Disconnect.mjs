@@ -34,17 +34,11 @@ export default class Disconnect extends Controller {
      * @return Promise a response promise resolved or rejected with a raw payload or {status: ..., data: ..., headers: ...} payload
      */
 	socket(request) {
-		// if (!this.$services.ComService.connection) return;
-
-		// this.$services.ComService.ignore()
-		// 	.then(() => this.$services.ComService.disconnect())
-		// 	.then(() => this.$socket.emit('notification', { type: 'info', message: 'Disconnected from serial port' }))
-		// 	.catch(() => this.$socket.emit('notification', { type: 'warning', message: 'Could not disconnect from serial port' }));	
-
-		// return 'fdsf';
+		if (!this.$services.sequencer.ready) return;
+		this.$services.sequencer.ready = false;
 
 		this.$socket.emit('roamer-request', JSON.stringify({ reply: 'received', request: request.body }));
 		this.$socket.emit('roamer-response', JSON.stringify({ reply: 'disconnected' }));
-		this.$socket.emit('notification', JSON.stringify({ type: 'info', message: 'Disconnected from serial port' }));
+		this.$socket.emit('notification', JSON.stringify({ type: 'info', message: 'Disconnected... ROAMer is offline' }));
 	}
 }
