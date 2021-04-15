@@ -34,7 +34,6 @@ export default class Disconnect extends Controller {
      * @return Promise a response promise resolved or rejected with a raw payload or {status: ..., data: ..., headers: ...} payload
      */
 	socket(request) {
-		if (!this.$services.sequencer.ready) return;
 		this.$services.sequencer.ready = false;
 
 		this.$socket.emit('roamer-request', JSON.stringify({ reply: 'received', request: request.body }));

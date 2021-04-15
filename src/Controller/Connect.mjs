@@ -36,12 +36,10 @@ export default class Move extends Controller {
 	socket(request) {
 		if (!!this.$services.sequencer.ready) return;
 
-		setTimeout(() => {
-			this.$services.sequencer.reset();
-	
-			this.$socket.emit('roamer-request', JSON.stringify({ reply: 'received', request: request.body }));
-			this.$socket.emit('roamer-response', JSON.stringify({ reply: 'connected' }));
-			this.$socket.emit('notification', JSON.stringify({ type: 'info', message: 'Connected... ROAMer is ready' }));
-		}, 2000);
+		this.$socket.emit('roamer-request', JSON.stringify({ reply: 'received', request: request.body }));
+		this.$socket.emit('roamer-response', JSON.stringify({ reply: 'connected' }));
+		this.$socket.emit('notification', JSON.stringify({ type: 'info', message: 'Connected... ROAMer is ready' }));
+
+		setTimeout(() => this.$services.sequencer.reset(), 2000);
 	}
 }

@@ -60,10 +60,11 @@ export default class Sequencer extends Service {
 	}
 	
 	reset() {
+		this.ready = true;
+
 		if (this.$environment.API_SERVO === 'disconnected') return console.log('API_SERVO is disconnected, simulating reset');
 
 		this.chain.reset();
-		this.ready = true;
 	}
 
 	sequence(data) {
@@ -71,7 +72,7 @@ export default class Sequencer extends Service {
 		const posture = data.posture ? data.posture.charAt(0).toUpperCase() + data.posture.slice(1).toLowerCase() : '';
 
 		if (!Sequences[action + posture] || !this.ready) return;
-		if (this.$environment.API_SERVO === 'disconnected') return console.log(`API_SERVO is disconnected, simulating sequence [${action + posture}:${data}]`);
+		if (this.$environment.API_SERVO === 'disconnected') return console.log(`API_SERVO is disconnected, simulating sequence ${JSON.stringify(data)}`);
 
 		let sig = this.sig = action + posture + Date.now();
 		this.name = action + posture;

@@ -39,6 +39,6 @@ export default class Action extends Controller {
 
 		this.$socket.emit('roamer-request', JSON.stringify({ reply: 'received', request: request.body }));
 		this.$services.sequencer.sequence(JSON.parse(request.body));	
-		this.$socket.emit('roamer-response', JSON.stringify({ reply: `Completed action ${action + posture}` }));
+		this.$socket.emit('roamer-response', JSON.stringify({ reply: `Completed action` }));
 	}
 }
